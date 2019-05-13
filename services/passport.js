@@ -18,13 +18,15 @@ const googleStrategy = new GoogleStrategy({
     clientSecret: keys.Google.ClientSecret,
     callbackURL: keys.Google.CallbackURL
 }, async (accessToken, refreshToken, profile, done) => {
+    console.log(profile);
     let user = await User.findOne({ googleID: profile.id })
     if (!user) {
         user = await new User({
             googleID: profile.id,
             displayName: profile.displayName,
+            picture: profile.picture,
             email: profile.email
-        })
+        }).save();
     }
 
     return done(null, user);
