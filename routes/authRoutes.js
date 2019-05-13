@@ -20,6 +20,7 @@ module.exports = app => {
     )
 
     app.get("/api/auth/current_user", (req, res) => {
-        res.send(req.user);
+        let user = req.user || false;
+        res.send(user);
     })
 }
