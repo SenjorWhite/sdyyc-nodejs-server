@@ -1,4 +1,3 @@
-const eventManager = require("./models/EventManager");
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -26,14 +25,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.resolve(__dirname, "./public")));
 
-app.get("/api/events", (req, res) => {
-    let events = eventManager.getEvents();
-    res.json(events);
-    console.log("Request for events at %s", Date.now())
-});
-
 require("./routes/authRoutes")(app);
 require("./routes/paymentRoutes")(app);
+require("./routes/eventRoute")(app);
+
+app.get("*", (req, res) => {
+    res.redirect("/");
+})
 
 app.listen(port, () => {
     console.log("Server is listening on port: %s", port);
