@@ -6,6 +6,8 @@ const userSchema = new Schema({
     displayName: String,
     picture: String,
     email: String,
+    //permission level: admin, premium, normal
+    permission: { type: String, default: "normal" },
     credits: { type: Number, default: 0 }
 });
 

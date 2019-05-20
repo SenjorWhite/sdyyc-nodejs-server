@@ -1,3 +1,7 @@
+require("../models/Event");
+const mongoose = require("mongoose");
+const Event = mongoose.model("events");
+
 const events = [
     { id: 0001, title: "The 1st Meetup", content: "Welcome to the Meetup No. 1!", rsvp: "past" },
     { id: 0002, title: "The 2nd Meetup", content: "Welcome to the Meetup No. 2!", rsvp: "past" },
@@ -10,5 +14,18 @@ const events = [
 module.exports = {
     getEvents: function () {
         return events;
+    },
+
+    createEvent: async function (profile) {
+        let event = new Event({
+            title: profile.title,
+            body: profile.body,
+            attendees: profile.attendees.map(attendee => ({ _user: attendee })),
+            _user: profile.id,
+            createDate: Date.now(),
+            eventDate: profile.eventDate
+        })
+
+        return await event.save();
     }
 }
